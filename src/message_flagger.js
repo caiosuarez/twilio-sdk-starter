@@ -6,12 +6,13 @@ const client = require("twilio")(accountSid, authToken);
 
 // const config = require("./config");
 
-function messageFlagger(req, res) {
+async function messageFlagger(req, res) {
   const body = req.body;
   const messageText = body["Body"];
   const author = body["Author"];
   const attributes = JSON.parse(body["Attributes"]) || {};
   const chatServiceSid = body["ChatServiceSid"];
+  const messagingServiceSid = body["MessagingServiceSid"];
   const conversationSid = body["ConversationSid"];
   const messageSid = body["MessageSid"];
   console.log("body:", body);
@@ -31,23 +32,31 @@ function messageFlagger(req, res) {
 
   attributes["flagged"] = true;
   console.log("attributes", attributes);
-  client.conversations.v1
-    .services(chatServiceSid)
-    .conversations(conversationSid)
-    .messages(messageSid)
-    .update({ attributes: attributes })
-    .then((message) => console.log("message", message));
+  try {
+    client.conversations.v1
+      .services(chatServiceSid)
+      .conversations(conversationSid)
+      .messages(messageSid)
+      .update({ attributes: attributes })
+      .then((message) => console.log("message", message));
+  } catch (err) {
+    console.log("err", err);
+  }
 
-  client.conversations.v1
-    .services(chatServiceSid)
-    .conversations(conversationSid)
-    .messages(messageSid)
-    .update({ attributes: attributes })
-    .then((message) => console.log("message", message));
+  try {
+    client.conversations.v1
+      .services(messagingServiceSid)
+      .conversations(conversationSid)
+      .messages(messageSid)
+      .update({ attributes: attributes })
+      .then((message) => console.log("message", message));
+  } catch (err) {
+    console.log("err 2", err);
+  }
 
   //   res.status(200).send({ attributes: attributes });
   //   res.status(200).send(JSON.stringify({ attributes: attributes }));
-  return;
+  //   return;
 }
 
 module.exports = messageFlagger;
