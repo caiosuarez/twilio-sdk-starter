@@ -1,4 +1,8 @@
 const Twilio = require("twilio");
+const config = require("./config");
+const accountSid = config.TWILIO_ACCOUNT_SID;
+const authToken = config.TWILIO_AUTH_TOKEN;
+const client = require("twilio")(accountSid, authToken);
 
 // const config = require("./config");
 
@@ -7,18 +11,30 @@ function messageFlagger(req, res) {
   const messageText = body["Body"];
   const author = body["Author"];
   const attributes = body["Attributes"] || {};
+  const chatServiceSid = body["ChatServiceSid"];
+  const conversationSid = body["ConversationSid"];
+  const messageSid = body["MessageSid"];
   console.log("body", body);
 
   if (author === "2") {
-    res.status(200).send({});
+    // res.status(200).send({});
     return;
   }
 
-  if (messageText.includes("nervous")) {
-    attributes["flagged"] = true;
+  if (!messageText.includes("nervous")) {
+    return;
   }
+
+  attributes["flagged"] = true;
+  client.conversations.v1
+    .services(chatServiceSid)
+    .conversations(conversationSid)
+    .messages(messageSid)
+    .update({ attributes: attributes })
+    .then((message) => console.log(message));
+
   //   res.status(200).send({ attributes: attributes });
-  res.status(200).send(JSON.stringify({ attributes: attributes }));
+  //   res.status(200).send(JSON.stringify({ attributes: attributes }));
   return;
 }
 
