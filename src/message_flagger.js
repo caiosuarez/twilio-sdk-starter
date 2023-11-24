@@ -7,7 +7,7 @@ const client = require("twilio")(accountSid, authToken);
 // const config = require("./config");
 
 function messageFlagger(req, res) {
-  const body = req.body.body;
+  const body = req.body;
   const messageText = body["Body"];
   const author = body["Author"];
   //   const attributes = body["Attributes"] || {};
