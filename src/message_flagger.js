@@ -22,9 +22,12 @@ function messageFlagger(req, res) {
     return;
   }
 
-  if (!messageText.includes("nervous")) {
+  if (!messageText || !messageText.trim().includes("nervous")) {
     return;
   }
+
+  console.log("flagging");
+  console.log("attributes", attributes);
 
   attributes["flagged"] = true;
   client.conversations.v1
