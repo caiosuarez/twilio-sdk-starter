@@ -4,7 +4,7 @@
   "description": "Starter Server Application for Node.js",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node index.js",
     "test": "NODE_ENV=test && jest"
   },
   "repository": {
