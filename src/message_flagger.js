@@ -4,8 +4,6 @@ const accountSid = config.TWILIO_ACCOUNT_SID;
 const authToken = config.TWILIO_AUTH_TOKEN;
 const client = require("twilio")(accountSid, authToken);
 
-// const config = require("./config");
-
 async function messageFlagger(req, res) {
   const body = req.body;
   const messageText = body["Body"];
@@ -45,7 +43,7 @@ async function messageFlagger(req, res) {
 
   try {
     client.conversations.v1
-      .services(messagingServiceSid)
+      .services("IS61925b5a480e2574976fea202ebd3c5e")
       .conversations(conversationSid)
       .messages(messageSid)
       .update({ attributes: attributes })
@@ -53,6 +51,12 @@ async function messageFlagger(req, res) {
   } catch (err) {
     console.log("err 2", err);
   }
+
+  client.conversations.v1
+    .services(chatServiceSid)
+    .conversations(conversationSid)
+    .messages.list({ limit: 20 })
+    .then((messages) => messages.forEach((m) => console.log(m.sid)));
 
   //   res.status(200).send({ attributes: attributes });
   //   res.status(200).send(JSON.stringify({ attributes: attributes }));
