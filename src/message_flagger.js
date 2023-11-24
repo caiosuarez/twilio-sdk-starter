@@ -2,8 +2,9 @@ const Twilio = require("twilio");
 
 // const config = require("./config");
 
-function messageFlagger(e) {
-  console.log("e", e);
+function messageFlagger(req, res) {
+  console.log("req", req);
+  console.log("res", res);
 
   // if (config.TWILIO_SYNC_SERVICE_SID) {
   //   // Point to a particular Sync service, or use the account default to

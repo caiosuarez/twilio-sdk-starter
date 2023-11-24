@@ -29,7 +29,7 @@ router.post("/token", (req, res) => {
 });
 
 router.post("/message-flagger", (req, res) => {
-  res.send(messageFlagger());
+  res.send(messageFlagger(req, res));
 });
 
 router.post("/register", (req, res) => {
