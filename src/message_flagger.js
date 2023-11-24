@@ -10,12 +10,11 @@ function messageFlagger(req, res) {
   const body = req.body;
   const messageText = body["Body"];
   const author = body["Author"];
-  //   const attributes = body["Attributes"] || {};
   const attributes = JSON.parse(body["Attributes"]) || {};
   const chatServiceSid = body["ChatServiceSid"];
   const conversationSid = body["ConversationSid"];
   const messageSid = body["MessageSid"];
-  console.log("messageText: ", messageText);
+  console.log("body:", body);
 
   if (author === "2") {
     // res.status(200).send({});
@@ -26,16 +25,25 @@ function messageFlagger(req, res) {
     return;
   }
 
-  console.log("flagging");
-  console.log("attributes", attributes);
+  console.log("chatServiceSid", chatServiceSid);
+  console.log("conversationSid", conversationSid);
+  console.log("messageSid", messageSid);
 
   attributes["flagged"] = true;
+  console.log("attributes", attributes);
   client.conversations.v1
     .services(chatServiceSid)
     .conversations(conversationSid)
     .messages(messageSid)
     .update({ attributes: attributes })
-    .then((message) => console.log(message));
+    .then((message) => console.log("message", message));
+
+  client.conversations.v1
+    .services(chatServiceSid)
+    .conversations(conversationSid)
+    .messages(messageSid)
+    .update({ attributes: attributes })
+    .then((message) => console.log("message", message));
 
   //   res.status(200).send({ attributes: attributes });
   //   res.status(200).send(JSON.stringify({ attributes: attributes }));
