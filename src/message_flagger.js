@@ -7,14 +7,15 @@ const client = require("twilio")(accountSid, authToken);
 // const config = require("./config");
 
 function messageFlagger(req, res) {
-  const body = req.body;
+  const body = req.body.body;
   const messageText = body["Body"];
   const author = body["Author"];
-  const attributes = body["Attributes"] || {};
+  //   const attributes = body["Attributes"] || {};
+  const attributes = JSON.parse(body["Attributes"]) || {};
   const chatServiceSid = body["ChatServiceSid"];
   const conversationSid = body["ConversationSid"];
   const messageSid = body["MessageSid"];
-  console.log("body", body);
+  console.log("messageText: ", messageText);
 
   if (author === "2") {
     // res.status(200).send({});
