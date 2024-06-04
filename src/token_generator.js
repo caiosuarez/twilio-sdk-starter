@@ -6,7 +6,7 @@ const nameGenerator = require("../name_generator");
 // Access Token used for Chat and Sync
 const AccessToken = Twilio.jwt.AccessToken;
 const ChatGrant = AccessToken.ChatGrant;
-const SyncGrant = AccessToken.SyncGrant;
+// const SyncGrant = AccessToken.SyncGrant;
 
 /**
  * Generate an Access Token for an application user - it generates a random
@@ -36,15 +36,6 @@ function tokenGenerator(identity = 0) {
     });
     token.addGrant(chatGrant);
   }
-
-  // if (config.TWILIO_SYNC_SERVICE_SID) {
-  //   // Point to a particular Sync service, or use the account default to
-  //   // interact directly with Functions.
-  //   const syncGrant = new SyncGrant({
-  //     serviceSid: config.TWILIO_SYNC_SERVICE_SID || "default",
-  //   });
-  //   token.addGrant(syncGrant);
-  // }
 
   // Serialize the token to a JWT string and include it in a JSON response
   return {
